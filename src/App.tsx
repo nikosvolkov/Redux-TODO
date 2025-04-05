@@ -1,38 +1,32 @@
+import { useDispatch } from 'react-redux';
 import './App.css';
 import { useState } from 'react';
-
-interface Todo {
-  id: number;
-  text: string;
-}
+import { useSelector } from 'react-redux';
+import { addTodo, removeTodo } from './redux/actions/todoActions';
+import { todo } from './redux/reducers/todoReducer';
 
 type inputEvent = React.ChangeEvent<HTMLInputElement>;
 type formEvent = React.SyntheticEvent<HTMLFormElement>;
 
-const TODOS = [
-  { id: Date.now() + 1, text: 'React' },
-  { id: Date.now() + 2, text: 'JavaScript' },
-  { id: Date.now() + 3, text: 'Redux' },
-];
-
 function App() {
-  const [todos, setTodos] = useState<Todo[]>(TODOS);
+  const dispatch = useDispatch();
+  const todos = useSelector((store: todo[]) => store);
   const [text, setText] = useState<string>('');
 
-  const createTodo = () => {
+  const handleAddTodo = () => {
     if (!text) return;
-    setTodos([...todos, { id: Date.now(), text }]);
+    dispatch(addTodo(text));
     setText('');
   };
 
-  const deleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const handleRemoveTodo = (id: number) => {
+    dispatch(removeTodo(id));
   };
 
   return (
     <>
       <header className="header">
-        <h1>Todo List using React+Redux+Typescript</h1>
+        <h1>✅Todo List✅ using React+Redux+Typescript</h1>
       </header>
       <main>
         <form action="" onSubmit={(e: formEvent) => e.preventDefault()}>
@@ -44,7 +38,7 @@ function App() {
             onChange={(e: inputEvent) => setText(e.target.value)}
           />
 
-          <button className="formButton" onClick={createTodo}>
+          <button className="formButton" onClick={handleAddTodo}>
             Создать
           </button>
         </form>
@@ -56,7 +50,7 @@ function App() {
                 <p>{todo.text}</p>
                 <button
                   className="listDelete"
-                  onClick={() => deleteTodo(todo.id)}
+                  onClick={() => handleRemoveTodo(todo.id)}
                 >
                   X
                 </button>
