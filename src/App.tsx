@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import { useState } from 'react';
+
+interface Todo {
+  id: number;
+  text: string;
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [text, setText] = useState<string>('');
+
+  const createTodo = () => {
+    setTodos([...todos, { id: Date.now(), text }]);
+    setText('')
+  };
+
+  const deleteTodo = (id:number)=>{
+    setTodos(todos.filter(todo=>todo.id !== id))
+  } 
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header className="header">
+        <h1>Todo List using React+Redux+Typescript</h1>
+      </header>
+      <main>
+        <form action="" onSubmit={(e) => e.preventDefault()}>
+          <input
+          className='formInput'
+            type="text"
+            placeholder="Текст задачи"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+
+          <button className='formButton' onClick={createTodo}>Создать</button>
+        </form>
+
+        <ul className="list">
+          {todos.map((todo) => (
+            <li className="listItem">
+              <input type="checkbox" className='listCheckbox'/>
+              <p>{todo.text}</p>
+              <button className="listDelete" onClick={()=>deleteTodo(todo.id)}>X</button>
+            </li>
+          ))}
+        </ul>
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
