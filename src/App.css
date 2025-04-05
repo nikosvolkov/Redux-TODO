@@ -12,22 +12,35 @@ main{
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  max-width: 300px;
+  font-size: 24px;
+  max-width: 600px;
   width: 100%;
 }
 
 form{
   display: flex;
-  gap: 5px;
+  gap: 10px;
   width: 100%;
 }
 
 .formInput{
   flex-grow: 1;
+  border: none;
+  outline: none;
+  font-size: 24px;
+  padding: 6px 10px;
+}
+
+.formButton{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  
 }
 
 .header{
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 100px;
 }
 
 .list{
@@ -40,18 +53,12 @@ form{
   display: flex;
 justify-content: space-between;
 align-items: center;
-}
-
-.listCheckbox{
-  padding: 0;
-  margin: 0;
-  width: 40px;
-  height: 40px;
+/* max-height: 60px; */
 }
 
 .listCheckbox {
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   margin-inline: 10px;
   cursor: pointer;
 
@@ -66,6 +73,7 @@ align-items: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .listCheckbox:hover {
@@ -82,13 +90,13 @@ align-items: center;
 .listCheckbox:checked::after {
   content: "";
   display: block;
-  width: 5px;
-  height: 10px;
+  width: 10px;
+  height: 20px;
   border: solid white;
-  border-width: 0 2px 2px 0;
+  border-width: 0 4px 4px 0;
   transform: rotate(45deg);
   position: absolute;
-  top: 1px;
+  top: 4px;
 }
 
 .listCheckbox:active {
@@ -96,17 +104,18 @@ align-items: center;
 }
 
 .listDelete {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   color: #888;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 24px;
   padding: 0;
   background-color: transparent;
   border: none;
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .listDelete:hover{
@@ -125,7 +134,8 @@ align-items: center;
 
 .listItem > p{
   margin: 0;
-  overflow: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .listItem:nth-child(odd){
