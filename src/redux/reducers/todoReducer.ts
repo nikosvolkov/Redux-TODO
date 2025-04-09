@@ -1,4 +1,5 @@
-import { todoType } from '../actions/todoTypes';
+import { todoAction } from '../actions/types/actionTypes';
+import { actionTypes } from '../actions/types/actionTypes';
 
 export interface todo {
   id: number;
@@ -12,16 +13,16 @@ const initialState: todo[] = [
   { id: Date.now() + 3, text: 'Redux', completed: false },
 ];
 
-const todoReducer = (state = initialState, action: todoType) => {
+const todoReducer = (state = initialState, action: todoAction) => {
   switch (action.type) {
-    case 'ADD_TODO':
+    case actionTypes.ADD_TODO:
       return [
         ...state,
         { id: Date.now(), text: action.payload, completed: false },
       ];
-    case 'REMOVE_TODO':
+    case actionTypes.REMOVE_TODO:
       return state.filter((todo) => todo.id !== action.payload);
-    case 'COMPLETE_TODO':
+    case actionTypes.COMPLETE_TODO:
       return state.map((todo) => {
         if (todo.id !== action.payload) return todo;
         return { ...todo, completed: !todo.completed };

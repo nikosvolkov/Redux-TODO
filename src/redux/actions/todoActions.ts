@@ -1,14 +1,16 @@
+import { actionTypes } from './types/actionTypes';
+
 export const addTodo = (text: string) => ({
-  type: 'ADD_TODO',
+  type: actionTypes.ADD_TODO,
   payload: text,
 });
 
 export const removeTodo = (id: number) => ({
-  type: 'REMOVE_TODO',
+  type: actionTypes.REMOVE_TODO,
   payload: id,
 });
 
 export const toggleCompleteTodo = (id: number) =>({
-  type: 'COMPLETE_TODO',
+  type: actionTypes.COMPLETE_TODO,
   payload: id
 })
