@@ -2,7 +2,11 @@ import { useDispatch } from 'react-redux';
 import './App.css';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { addTodo, removeTodo } from './redux/actions/todoActions';
+import {
+  addTodo,
+  removeTodo,
+  toggleCompleteTodo,
+} from './redux/actions/todoActions';
 import { todo } from './redux/reducers/todoReducer';
 
 type inputEvent = React.ChangeEvent<HTMLInputElement>;
@@ -21,6 +25,10 @@ function App() {
 
   const handleRemoveTodo = (id: number) => {
     dispatch(removeTodo(id));
+  };
+
+  const handleCompleteTodo = (id: number) => {
+    dispatch(toggleCompleteTodo(id));
   };
 
   return (
@@ -46,7 +54,14 @@ function App() {
           <ul className="list">
             {todos.map((todo) => (
               <li className="listItem" key={todo.id}>
-                <input type="checkbox" className="listCheckbox" />
+                <input
+                  type="checkbox"
+                  className="listCheckbox"
+                  onChange={() => {
+                    handleCompleteTodo(todo.id);
+                  }}
+                  checked={todo.completed}
+                />
                 <p>{todo.text}</p>
                 <button
                   className="listDelete"

@@ -8,4 +8,9 @@ interface removeTodo {
   payload: number;
 }
 
-export type todoType = addTodo | removeTodo;
+interface toggleCompleteTodo{
+  type: 'COMPLETE_TODO';
+  payload: number;
+}
+
+export type todoType = addTodo | removeTodo | toggleCompleteTodo;
