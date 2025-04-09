@@ -8,9 +8,9 @@ import {
   toggleCompleteTodo,
 } from './redux/actions/todoActions';
 import { todo } from './redux/reducers/todoReducer';
-
-type inputEvent = React.ChangeEvent<HTMLInputElement>;
-type formEvent = React.SyntheticEvent<HTMLFormElement>;
+import Header from './components/Header/Header';
+import InputForm from './components/InputForm/InputForm';
+import TodoList from './components/TodoList/TodoList';
 
 function App() {
   const dispatch = useDispatch();
@@ -33,45 +33,19 @@ function App() {
 
   return (
     <>
-      <header className="header">
-        <h1>✅Todo List✅ using React+Redux+Typescript</h1>
-      </header>
+      <Header />
       <main>
-        <form action="" onSubmit={(e: formEvent) => e.preventDefault()}>
-          <input
-            className="formInput"
-            type="text"
-            placeholder="Текст задачи"
-            value={text}
-            onChange={(e: inputEvent) => setText(e.target.value)}
-          />
-
-          <button className="formButton" onClick={handleAddTodo}>
-            Создать
-          </button>
-        </form>
+        <InputForm
+          text={text}
+          setText={setText}
+          handleAddTodo={handleAddTodo}
+        />
         {todos.length ? (
-          <ul className="list">
-            {todos.map((todo) => (
-              <li className="listItem" key={todo.id}>
-                <input
-                  type="checkbox"
-                  className="listCheckbox"
-                  onChange={() => {
-                    handleCompleteTodo(todo.id);
-                  }}
-                  checked={todo.completed}
-                />
-                <p>{todo.text}</p>
-                <button
-                  className="listDelete"
-                  onClick={() => handleRemoveTodo(todo.id)}
-                >
-                  X
-                </button>
-              </li>
-            ))}
-          </ul>
+          <TodoList
+            todos={todos}
+            handleRemoveTodo={handleRemoveTodo}
+            handleCompleteTodo={handleCompleteTodo}
+          />
         ) : (
           <p>Список задач пуст</p>
         )}
