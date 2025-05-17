@@ -1,7 +1,7 @@
 import React from "react";
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
-type FormEvent = React.SyntheticEvent<HTMLFormElement>;
+type FormEvent = React.FormEvent<HTMLFormElement>;
 
 interface InputFormProps {
   text: string;

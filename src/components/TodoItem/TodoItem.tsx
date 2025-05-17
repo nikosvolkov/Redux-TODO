@@ -1,25 +1,26 @@
-import styles from './TodoItem.module.css'
-import { todo } from '../../redux/reducers/todoReducer';
+import { useDispatch } from 'react-redux';
+import styles from './TodoItem.module.css';
+import { removeTodo, Todo, toggleTodo } from '../../redux/store/todoSlice';
 
 interface TodoItemProps{
-  todo: todo,
-  handleCompleteTodo: (id: number) => void;
-  handleRemoveTodo: (id: number) => void
+  todo: Todo,
+  id: string
 }
 
-const TodoItem = ({todo, handleCompleteTodo, handleRemoveTodo}: TodoItemProps) => {
+const TodoItem = ({todo, id}: TodoItemProps) => {
+  const dispatch = useDispatch()
   return (
-    <li className={styles.listItem} key={todo.id}>
+    <li className={styles.listItem}>
       <input
         type="checkbox"
         className={styles.listCheckbox}
         onChange={() => {
-          handleCompleteTodo(todo.id);
+          dispatch(toggleTodo({id}));
         }}
         checked={todo.completed}
       />
       <p>{todo.text}</p>
-      <button className={styles.listDelete} onClick={() => handleRemoveTodo(todo.id)}>
+      <button className={styles.listDelete} onClick={()=>dispatch(removeTodo({id}))}>
         X
       </button>
     </li>

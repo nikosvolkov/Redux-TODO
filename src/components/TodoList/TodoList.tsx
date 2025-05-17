@@ -1,28 +1,19 @@
 import styles from './TodoList.module.css';
 import TodoItem from '../TodoItem/TodoItem';
-import { todo } from '../../redux/reducers/todoReducer';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
-interface TodoListType {
-  todos: todo[];
-  handleCompleteTodo: (id: number) => void;
-  handleRemoveTodo: (id: number) => void;
-}
+const TodoList = () => {
+  const todos = useSelector((state: RootState) => state.todos.todos);
 
-const TodoList = ({
-  todos,
-  handleCompleteTodo,
-  handleRemoveTodo,
-}: TodoListType) => {
-  return (
+  return todos.length ? (
     <ul className={styles.list}>
       {todos.map((todo) => (
-        <TodoItem
-          todo={todo}
-          handleCompleteTodo={handleCompleteTodo}
-          handleRemoveTodo={handleRemoveTodo}
-        />
+        <TodoItem todo={todo} id={todo.id} />
       ))}
     </ul>
+  ) : (
+    <p>Список дел пуст</p>
   );
 };
 

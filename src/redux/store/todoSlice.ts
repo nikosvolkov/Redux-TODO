@@ -1,36 +1,59 @@
-import { todoAction } from '../actions/types/actionTypes';
-import { actionTypes } from '../actions/types/actionTypes';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { nanoid } from '@reduxjs/toolkit';
 
-export interface todo {
-  id: number;
-  todo: string;
+export interface Todo {
+  id: string;
+  text: string;
   completed: boolean;
-  userId: number
 }
 
-const initialState: todo[] = [
-  { id: Date.now() + 1, todo: 'React', completed: false, userId: 1 },
-  { id: Date.now() + 2, todo: 'JavaScript', completed: false, userId: 1 },
-  { id: Date.now() + 3, todo: 'Redux', completed: false, userId: 1 },
+interface TodoState {
+  todos: Todo[];
+}
+
+const initialTodos: Todo[] = [
+  { id: nanoid(12), text: 'React', completed: false },
+  { id: nanoid(12), text: 'JavaScript', completed: false },
+  { id: nanoid(12), text: 'Redux', completed: false },
 ];
 
-const todoReducer = (state = initialState, action: todoAction) => {
-  switch (action.type) {
-    case actionTypes.ADD_TODO:
-      return [
-        ...state,
-        { id: Date.now(), todo: action.payload, completed: false },
-      ];
-    case actionTypes.REMOVE_TODO:
-      return state.filter((todo) => todo.id !== action.payload);
-    case actionTypes.COMPLETE_TODO:
-      return state.map((todo) => {
-        if (todo.id !== action.payload) return todo;
-        return { ...todo, completed: !todo.completed };
-      });
-    default:
-      return state;
-  }
+const initialState: TodoState = {
+  todos: initialTodos,
 };
 
-export default todoReducer;
+interface AddTodoType {
+  text: string;
+}
+
+interface IdTodoType {
+  id: string;
+}
+
+export const todoSlice = createSlice({
+  name: 'todos',
+  initialState,
+  reducers: {
+    addTodo(store, action: PayloadAction<AddTodoType>) {
+      store.todos.push({
+        id: nanoid(12),
+        text: action.payload.text,
+        completed: false,
+      });
+    },
+    removeTodo(store, action: PayloadAction<IdTodoType>) {
+      store.todos = store.todos.filter((todo) => todo.id !== action.payload.id);
+    },
+    toggleTodo(store, action: PayloadAction<IdTodoType>) {
+      const toggledTodo = store.todos.find(
+        (todo) => todo.id === action.payload.id
+      );
+      if (toggledTodo) {
+        toggledTodo.completed = !toggledTodo.completed;
+      }
+    },
+  },
+});
+
+export const { addTodo, removeTodo, toggleTodo } = todoSlice.actions;
+
+export default todoSlice.reducer;
