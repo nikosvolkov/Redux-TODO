@@ -9,7 +9,7 @@ const TodoList = () => {
   return todos.length ? (
     <ul className={styles.list}>
       {todos.map((todo) => (
-        <TodoItem todo={todo} id={todo.id} />
+        <TodoItem key={todo.id} todo={todo} id={todo.id} />
       ))}
     </ul>
   ) : (
